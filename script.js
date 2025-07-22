@@ -1,23 +1,54 @@
-let day=1;
+let day = 1;
+let bank = 5.0;
+let sellingPrice = 1.00;
 
-
-let prices = {
+const prices = {
   lemons: 0.1,
   ice: 0.05,
   sugar: 0.02,
   cups: 0.1,
 };
 
-let bank = 5.0; 
-
-let inventory = {
+const inventory = {
   lemons: 100,
   ice: 5,
   sugar: 5,
   cups: 20,
 };
 
-// Buy Function
+const locationData = {
+  streetcorner: { name: "Street Corner", multiplier: 1.0, rent: 5 },
+  highstreet: { name: "High Street", multiplier: 1.5, rent: 20 },
+  festival: { name: "Festival", multiplier: 2.0, rent: 40 },
+  wedding: { name: "Wedding", multiplier: 1.8, rent: 30 },
+  stadium: { name: "Sports Stadium", multiplier: 2.5, rent: 60 }
+};
+
+const weatherTypes = {
+  Sunny: { bonus: 1.2 },
+  Cloudy: { bonus: 1.0 },
+  Rainy: { bonus: 0.6 },
+  Cold: { bonus: 0.7 }
+};
+
+// === New upgrade data and levels ===
+let staffLevel = 0;
+let marketingLevel = 0;
+
+const staffUpgradeCosts = {
+  intern: 5,
+  apprentice: 20,
+  senior: 60,
+  wizard: 180
+};
+
+const marketingUpgradeCosts = {
+  paper: 30,
+  signspinner: 70,
+  radio: 150,
+  tv: 400
+};
+
 function buyItem(item, inputId) {
   const amount = parseInt(document.getElementById(inputId).value);
   if (isNaN(amount) || amount <= 0) {
@@ -25,7 +56,6 @@ function buyItem(item, inputId) {
     return;
   }
   const cost = prices[item] * amount;
-
   if (bank >= cost) {
     bank -= cost;
     inventory[item] += amount;
@@ -35,7 +65,40 @@ function buyItem(item, inputId) {
   }
 }
 
-// Update UI Function
+// Track current upgrade names
+let currentStaffUpgrade = "";
+let currentMarketingUpgrade = "";
+
+function applyStaffUpgrade() {
+  const selected = document.getElementById("upgrade-staff-select").value;
+  const cost = staffUpgradeCosts[selected];
+  if (bank >= cost) {
+    bank -= cost;
+    staffLevel++;
+    currentStaffUpgrade = selected;
+    const capName = selected.charAt(0).toUpperCase() + selected.slice(1);
+    alert(`✅ Staff upgrade applied: ${capName} (Level ${staffLevel}).`);
+    updateUI();
+  } else {
+    alert("❌ Not enough money to apply Staff upgrade.");
+  }
+}
+
+function applyMarketingUpgrade() {
+  const selected = document.getElementById("upgrade-marketing-select").value;
+  const cost = marketingUpgradeCosts[selected];
+  if (bank >= cost) {
+    bank -= cost;
+    marketingLevel++;
+    currentMarketingUpgrade = selected;
+    const capName = selected.charAt(0).toUpperCase() + selected.slice(1);
+    alert(`✅ Marketing upgrade applied: ${capName} (Level ${marketingLevel}).`);
+    updateUI();
+  } else {
+    alert("❌ Not enough money to apply Marketing upgrade.");
+  }
+}
+
 function updateUI() {
   document.querySelector("main section h2").textContent = `Bank Balance: £${bank.toFixed(2)}`;
   document.getElementById("day-counter").textContent = `📅 Day: ${day}`;
@@ -44,35 +107,41 @@ function updateUI() {
   inventoryList[1].textContent = `🧊 Ice: ${inventory.ice} bags`;
   inventoryList[2].textContent = `🍚 Sugar: ${inventory.sugar} bags`;
   inventoryList[3].textContent = `🥤 Cups: ${inventory.cups}`;
-  // Location remains static for now
+  const selectedLoc = document.getElementById("upgrade-location-select").value;
+  inventoryList[4].textContent = `🗺️ Location: ${locationData[selectedLoc].name}`;
+
+  // Show Staff and Marketing level with upgrade names
+  const staffLevelDisplay = document.getElementById("staff-level-display");
+  const marketingLevelDisplay = document.getElementById("marketing-level-display");
+
+  if (staffLevelDisplay) {
+    const capStaffName = currentStaffUpgrade
+      ? currentStaffUpgrade.charAt(0).toUpperCase() + currentStaffUpgrade.slice(1)
+      : "None";
+    staffLevelDisplay.textContent = `Staff: ${capStaffName} (Level ${staffLevel})`;
+  }
+
+  if (marketingLevelDisplay) {
+    const capMarketingName = currentMarketingUpgrade
+      ? currentMarketingUpgrade.charAt(0).toUpperCase() + currentMarketingUpgrade.slice(1)
+      : "None";
+    marketingLevelDisplay.textContent = `Marketing: ${capMarketingName} (Level ${marketingLevel})`;
+  }
 }
 
-// buying stuff. 
+
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("buy-lemons-btn").addEventListener("click", () => {
-    buyItem("lemons", "buy-lemons-amount");
-  });
+  document.getElementById("buy-lemons-btn").addEventListener("click", () => buyItem("lemons", "buy-lemons-amount"));
+  document.getElementById("buy-ice-btn").addEventListener("click", () => buyItem("ice", "buy-ice-amount"));
+  document.getElementById("buy-sugar-btn").addEventListener("click", () => buyItem("sugar", "buy-sugar-amount"));
+  document.getElementById("buy-cups-btn").addEventListener("click", () => buyItem("cups", "buy-cups-amount"));
 
-  document.getElementById("buy-ice-btn").addEventListener("click", () => {
-    buyItem("ice", "buy-ice-amount");
-  });
-
-  document.getElementById("buy-sugar-btn").addEventListener("click", () => {
-    buyItem("sugar", "buy-sugar-amount");
-  });
-
-  document.getElementById("buy-cups-btn").addEventListener("click", () => {
-    buyItem("cups", "buy-cups-amount");
-  });
+  document.getElementById("upgrade-staff-btn").addEventListener("click", applyStaffUpgrade);
+  document.getElementById("upgrade-marketing-btn").addEventListener("click", applyMarketingUpgrade);
 
   updateUI();
 });
 
-// Selling Function
-
-let sellingPrice = 1.00
-
-// set selling price
 document.getElementById("set-price-btn").addEventListener("click", () => {
   const priceInput = parseFloat(document.getElementById("price-per-cup").value);
   if (isNaN(priceInput) || priceInput <= 0) {
@@ -83,54 +152,75 @@ document.getElementById("set-price-btn").addEventListener("click", () => {
   alert(`✅ Price set to £${sellingPrice.toFixed(2)} per cup.`);
 });
 
-
-//simulated selling 
 document.getElementById("open-stall-btn").addEventListener("click", () => {
   if (
-    inventory.lemons < 1 ||
-    inventory.cups < 1 ||
-    inventory.sugar < 1 ||
-    inventory.ice < 1
+    inventory.lemons < 1 || inventory.cups < 1 ||
+    inventory.sugar < 1 || inventory.ice < 1
   ) {
     alert("❌ Not enough supplies to sell lemonade!");
     return;
   }
 
   const popup = document.getElementById("day-popup");
-  popup.classList.remove("hidden"); // Show popup with animation
+  popup.classList.remove("hidden");
 
   setTimeout(() => {
-    // Increment day
     day++;
 
-    // Calculate customers and sales
-    let maxCustomers = 100;
-    let priceFactor = Math.floor(sellingPrice * 10);
-    let customerReduction = priceFactor * 3;
-    let potentialCustomers = Math.max(0, maxCustomers - customerReduction);
-    let customers = Math.floor(Math.random() * (potentialCustomers + 1));
+    // Weather Randomization
+    const weatherKeys = Object.keys(weatherTypes);
+    const randomWeather = weatherKeys[Math.floor(Math.random() * weatherKeys.length)];
+    const weatherBonus = weatherTypes[randomWeather].bonus;
+    document.getElementById("weather-info").textContent = `Weather is ${randomWeather}.`;
 
-    let maxSales = Math.min(customers, inventory.lemons, inventory.cups, inventory.sugar, inventory.ice);
-    let earnings = maxSales * sellingPrice;
+    // Location Effects
+    const locationKey = document.getElementById("upgrade-location-select").value;
+    const location = locationData[locationKey];
+    const locationMultiplier = location.multiplier;
+    const locationRent = location.rent;
 
-    // Update bank and inventory
-    bank += earnings;
+    // Calculate customers
+    const baseMaxCustomers = 100;
+    const priceFactor = Math.floor(sellingPrice * 10);
+    const customerReduction = priceFactor * 3;
+    const adjustedMaxCustomers = Math.max(0, baseMaxCustomers - customerReduction);
+    const baseCustomers = Math.floor(Math.random() * (adjustedMaxCustomers + 1));
+    
+    // === Apply marketing upgrade bonus ===
+    const finalCustomers = Math.floor(baseCustomers * weatherBonus * locationMultiplier * (1 + marketingLevel * 0.5));
+
+    // 🥤 Max possible sales
+    const maxSales = Math.min(finalCustomers, inventory.lemons, inventory.cups, inventory.sugar, inventory.ice);
+    const revenue = maxSales * sellingPrice;
+
+    // === Calculate tips from staff upgrades ===
+    const tipsPerSale = 0.1 * staffLevel; // 10p tip per sale per staff level
+    const totalTips = maxSales * tipsPerSale;
+
+    const netProfit = revenue + totalTips - locationRent;
+    bank += netProfit;
+
+    // 📉 Update inventory
     inventory.lemons -= maxSales;
     inventory.cups -= maxSales;
     inventory.sugar -= maxSales;
     inventory.ice -= maxSales;
 
-    // Refresh UI
+    // 🧾 Update UI and sales
     updateUI();
-
-    // Show sales summary message
     const salesInfo = document.getElementById("sales-info");
-    salesInfo.textContent = `You sold ${maxSales} cup${maxSales !== 1 ? "s" : ""} and made £${earnings.toFixed(2)}!`;
+    salesInfo.innerHTML = `
+      🧑‍🤝‍🧑 Customers: ${finalCustomers} <br>
+      🧾 Sold: ${maxSales} cup${maxSales !== 1 ? "s" : ""} <br>
+      💰 Revenue: £${revenue.toFixed(2)} <br>
+      💵 Tips: £${totalTips.toFixed(2)} <br>
+      💸 Rent: £${locationRent.toFixed(2)} <br>
+      📉 Net Profit: £${netProfit.toFixed(2)} <br>
+      🏦 Bank: £${bank.toFixed(2)}
+    `;
 
-    // Wait 3 seconds so user can read sales summary, then hide popup
     setTimeout(() => {
       popup.classList.add("hidden");
     }, 3000);
-
-  }, 5000); // 5 seconds animation duration
+  }, 5000); // 5s animation
 });
