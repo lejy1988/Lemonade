@@ -4,8 +4,8 @@ let sellingPrice = 1.00;
 
 const prices = {
   lemons: 0.1,
-  ice: 0.05,
-  sugar: 0.02,
+  ice: 0.1,
+  sugar: 0.1,
   cups: 0.1,
 };
 
@@ -17,11 +17,11 @@ const inventory = {
 };
 
 const locationData = {
-  streetcorner: { name: "Street Corner", multiplier: 1.0, rent: 5 },
-  highstreet: { name: "High Street", multiplier: 1.5, rent: 20 },
-  festival: { name: "Festival", multiplier: 2.0, rent: 40 },
-  wedding: { name: "Wedding", multiplier: 1.8, rent: 30 },
-  stadium: { name: "Sports Stadium", multiplier: 2.5, rent: 60 }
+  streetcorner: { name: "Street Corner", multiplier: 1.0, rent: 1 },
+  highstreet: { name: "High Street", multiplier: 1.5, rent: 5 },
+  festival: { name: "Festival", multiplier: 2.0, rent: 10 },
+  wedding: { name: "Wedding", multiplier: 1.8, rent: 20 },
+  stadium: { name: "Sports Stadium", multiplier: 2.5, rent: 30 }
 };
 
 const weatherTypes = {

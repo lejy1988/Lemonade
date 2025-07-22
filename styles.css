@@ -240,3 +240,8 @@ svg {
   background-color: #005B44;
   transform: scale(0.97);
 }
+
+.banner {
+background-color: #FFEF1A;
+border-radius: 10px;
+}

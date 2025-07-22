@@ -8,9 +8,9 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>Boobies Lemonade Stall</h1>
-    </header>
+  <header class="banner">
+    <h1>Boobies Lemonade Stall - Pucker Up for Pure Refreshment!</h1>
+  </header>
     <main>
       <div class="container"> 
         <section class= "section1">
@@ -20,8 +20,10 @@
             <h2 id="marketing-level-display">Marketing Level: 0</h2>
           </section>
           <section class="section2">
-            <h2>🏪  Open the Stall  🏪 </h2>
-            <button class = "myButton"id="open-stall-btn">Open Stall</button>
+            <h2>Sales</h2>
+            <p id="sales-info">No sales yet.</p>
+            <h2>Weather</h2>
+            <p id="weather-info">Weather is sunny.</p>
         </section>
       </div>
 
@@ -68,21 +70,21 @@
         <h2>Upgrades</h2>
         <label for="upgrade-staff-select">Hire Staff:</label>
         <select id="upgrade-staff-select">
-          <option value="intern">Hire Intern</option>
-          <option value="apprentice">Hire Apprentice</option>
-          <option value="senior">Hire Senior Staff</option>
-          <option value="wizard">Hire Lemonade Wizard</option>
+          <option value="intern">Hire Intern £5</option>
+          <option value="apprentice">Hire Apprentice £20</option>
+          <option value="senior">Hire Senior Staff £60</option>
+          <option value="wizard">Hire Wizard £180</option>
         </select>
-        <button class = "myButton" id="upgrade-staff-btn">Apply Staff Upgrade</button>
+        <button class = "myButton" id="upgrade-staff-btn">Apply Upgrade</button>
       <br>
         <label for="upgrade-marketing-select">Marketing:</label>
         <select id="upgrade-marketing-select">
-          <option value="paper">Local Paper Ad</option>
-          <option value="signspinner">Sign Spinner</option>
-          <option value="radio">Radio Ad</option>
-          <option value="tv">TV Advert</option>
+          <option value="paper">Local Paper Ad £30</option>
+          <option value="signspinner">Sign Spinner £70</option>
+          <option value="radio">Radio Ad £150</option>
+          <option value="tv">TV Advert £400</option>
         </select>
-        <button class = "myButton" id="upgrade-marketing-btn">Apply Marketing Upgrade</button>
+        <button class = "myButton" id="upgrade-marketing-btn">Apply Upgrade</button>
         <br>
         <label for="upgrade-location-select">Change Location:</label>
         <select id="upgrade-location-select">
@@ -92,24 +94,17 @@
           <option value="wedding">Wedding</option>
           <option value="stadium">Sports Stadium</option>
         </select>
-        <button class = "myButton" id="upgrade-location-btn">Apply Location Change</button>
+        <button class = "myButton" id="upgrade-location-btn">Apply Change</button>
       </section>
         <section class = "section6">
             <h2>Set Prices</h2>
             <label for="price-per-cup">Price per Cup:</label>
             <input type="number" id="price-per-cup" value="1.00" step="0.01" />
             <button class = "myButton" id="set-price-btn">Set Price</button>
+            <h2>🏪  Open the Stall  🏪 </h2>
+            <button class = "myButton"id="open-stall-btn">Open Stall</button>
         </section>
       </div>
-
-        <section>
-            <h2>Sales</h2>
-            <p id="sales-info">No sales yet.</p>
-        </section>
-        <section>
-            <h2>Weather</h2>
-            <p id="weather-info">Weather is sunny.</p>
-        </section>
        
     </main>
     <footer>
