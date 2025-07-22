@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>🍋 Lemonade Stand 🍋</title>
+    <link rel="stylesheet" href="styles.css" /> 
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Boobies Lemonade Stall</h1>
+    </header>
+    <main>
+      <div class="container"> 
+        <section class= "section1">
+            <h2>Bank Balance: £5.00</h2>
+            <h2 id="day-counter">📅 Day: 1</h2>
+          </section>
+          <section class="section2">
+            <h2>🏪  Open the Stall  🏪 </h2>
+            <button class = "myButton"id="open-stall-btn">Open Stall</button>
+        </section>
+      </div>
+
+          <div class="container">
+        <section class = "section3">
+            <h2>Inventory</h2> 
+            <ul>
+              <li>🍋 Lemons:  100</li>
+              <li>🧊 Ice:  5 bags</li>
+              <li>🍚 Sugar:  5 bags</li>
+              <li>🥤 Cups: 20</li>
+              <li>🗺️ Location: Street corner</li>
+            </ul>
+        </section>        
+        <section class = "section4">
+          <h2>Buy Supplies</h2>
+          <ul>
+              <li>
+                  <label for="buy-lemons-amount">🍋 Lemons:</label>
+                  <input type="number" id="buy-lemons-amount" value="1" min="1" step="1" />
+                  <button class = "myButton" id="buy-lemons-btn">Buy</button>
+              </li>
+              <li>
+                  <label for="buy-ice-amount">🧊 Ice Bag:</label>
+                  <input type="number" id="buy-ice-amount" value="1" min="1" step="1" />
+                  <button class = "myButton" id="buy-ice-btn">Buy</button>
+              </li>
+              <li>
+                  <label for="buy-sugar-amount">🍚 Sugar:</label>
+                  <input type="number" id="buy-sugar-amount" value="1" min="1" step="1" />
+                  <button class = "myButton" id="buy-sugar-btn">Buy</button>
+              </li>
+              <li>
+                  <label for="buy-cups-amount">🥤 Cups:</label>
+                  <input type="number" id="buy-cups-amount" value="1" min="1" step="1" />
+                  <button class = "myButton" id="buy-cups-btn">Buy</button>
+              </li>
+          </ul>
+      </section>
+    </div>
+    
+    <div class="container"> 
+      <section class = "section5">
+        <h2>Upgrades</h2>
+        <label for="upgrade-staff-select">Hire Staff:</label>
+        <select id="upgrade-staff-select">
+          <option value="intern">Hire Intern</option>
+          <option value="apprentice">Hire Apprentice</option>
+          <option value="senior">Hire Senior Staff</option>
+          <option value="wizard">Hire Lemonade Wizard</option>
+        </select>
+        <button class = "myButton" id="upgrade-staff-btn">Apply Staff Upgrade</button>
+      <br>
+        <label for="upgrade-marketing-select">Marketing:</label>
+        <select id="upgrade-marketing-select">
+          <option value="paper">Local Paper Ad</option>
+          <option value="signspinner">Sign Spinner</option>
+          <option value="radio">Radio Ad</option>
+          <option value="tv">TV Advert</option>
+        </select>
+        <button class = "myButton" id="upgrade-marketing-btn">Apply Marketing Upgrade</button>
+        <br>
+        <label for="upgrade-location-select">Change Location:</label>
+        <select id="upgrade-location-select">
+          <option value="streetcorner">Street Corner</option>
+          <option value="highstreet">High Street</option>
+          <option value="festival">Festival</option>
+          <option value="wedding">Wedding</option>
+          <option value="stadium">Sports Stadium</option>
+        </select>
+        <button class = "myButton" id="upgrade-location-btn">Apply Location Change</button>
+      </section>
+        <section class = "section6">
+            <h2>Set Prices</h2>
+            <label for="price-per-cup">Price per Cup:</label>
+            <input type="number" id="price-per-cup" value="1.00" step="0.01" />
+            <button class = "myButton" id="set-price-btn">Set Price</button>
+        </section>
+      </div>
+
+        <section>
+            <h2>Sales</h2>
+            <p id="sales-info">No sales yet.</p>
+        </section>
+        <section>
+            <h2>Weather</h2>
+            <p id="weather-info">Weather is sunny.</p>
+        </section>
+       
+    </main>
+    <footer>
+        <p>🍋 Built with love for Booby by Boobies Inc. © 2025 🍋 </p>
+    </footer>
+   <!-- Day Popup -->
+    
+   <div id="day-popup" class="hidden">
+    <svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg" aria-label="Lemonade stand animation" style="background: none;">
+      
+      <!-- Static background inside SVG -->
+  
+      <!-- Sky -->
+      <rect x="0" y="0" width="400" height="150" fill="#87CEEB" />
+  
+      <!-- Ground -->
+      <rect x="0" y="110" width="400" height="40" fill="#4CAF50" />
+  
+      <!-- Sun -->
+      <circle cx="350" cy="40" r="20" fill="#FFD700" />
+      <!-- Sun rays -->
+      <line x1="350" y1="10" x2="350" y2="0" stroke="#FFD700" stroke-width="3" />
+      <line x1="350" y1="70" x2="350" y2="80" stroke="#FFD700" stroke-width="3" />
+      <line x1="320" y1="40" x2="310" y2="40" stroke="#FFD700" stroke-width="3" />
+      <line x1="380" y1="40" x2="390" y2="40" stroke="#FFD700" stroke-width="3" />
+      <line x1="335" y1="25" x2="325" y2="15" stroke="#FFD700" stroke-width="3" />
+      <line x1="365" y1="55" x2="375" y2="65" stroke="#FFD700" stroke-width="3" />
+  
+      <!-- Clouds -->
+      <ellipse cx="80" cy="40" rx="25" ry="15" fill="#fff" opacity="0.8" />
+      <ellipse cx="110" cy="45" rx="30" ry="20" fill="#fff" opacity="0.8" />
+      <ellipse cx="140" cy="40" rx="25" ry="15" fill="#fff" opacity="0.8" />
+      
+      <!-- Ground Line -->
+      <line class="ground" x1="0" y1="140" x2="400" y2="140" />
+  
+      <!-- Lemonade Stand Base -->
+      <rect class="stand-base" x="160" y="90" width="80" height="40" rx="5" ry="5" />
+      <!-- Stand Counter -->
+      <rect class="stand-counter" x="160" y="80" width="80" height="15" rx="3" ry="3" />
+      <!-- Vertical Posts -->
+      <line class="post" x1="170" y1="80" x2="170" y2="40" />
+      <line class="post" x1="230" y1="80" x2="230" y2="40" />
+      <!-- Awning Stripes -->
+      <rect class="awning-stripe" x="160" y="40" width="15" height="20" />
+      <rect class="awning-stripe" x="175" y="40" width="15" height="20" />
+      <rect class="awning-stripe" x="190" y="40" width="15" height="20" />
+      <rect class="awning-stripe" x="205" y="40" width="15" height="20" />
+      <rect class="awning-stripe" x="220" y="40" width="15" height="20" />
+      <!-- Stand Roof -->
+      <polygon class="stand-roof" points="160,40 240,40 200,10" />
+  
+      <!-- Customer 1 (stick figure) -->
+     <!-- Customer 1 (stick figure) -->
+<g class="customer1">
+  <circle class="head" cx="0" cy="0" r="6" />
+  <line class="body" x1="0" y1="6" x2="0" y2="20" />
+  <line class="arm-left" x1="0" y1="10" x2="-8" y2="15" />
+  <line class="arm-right" x1="0" y1="10" x2="8" y2="15" />
+  <line class="leg-left" x1="0" y1="20" x2="-6" y2="30" />
+  <line class="leg-right" x1="0" y1="20" x2="6" y2="30" />
+</g>
+
+<!-- Customer 2 (stick figure) -->
+<g class="customer2">
+  <circle class="head" cx="0" cy="0" r="6" />
+  <line class="body" x1="0" y1="6" x2="0" y2="20" />
+  <line class="arm-left" x1="0" y1="10" x2="-8" y2="15" />
+  <line class="arm-right" x1="0" y1="10" x2="8" y2="15" />
+  <line class="leg-left" x1="0" y1="20" x2="-6" y2="30" />
+  <line class="leg-right" x1="0" y1="20" x2="6" y2="30" />
+</g>
+
+<!-- Customer 3 (stick figure) -->
+<g class="customer3">
+  <circle class="head" cx="0" cy="0" r="6" />
+  <line class="body" x1="0" y1="6" x2="0" y2="20" />
+  <line class="arm-left" x1="0" y1="10" x2="-8" y2="15" />
+  <line class="arm-right" x1="0" y1="10" x2="8" y2="15" />
+  <line class="leg-left" x1="0" y1="20" x2="-6" y2="30" />
+  <line class="leg-right" x1="0" y1="20" x2="6" y2="30" />
+</g>
+
+<!-- Customer 4 (stick figure) -->
+<g class="customer4">
+  <circle class="head" cx="0" cy="0" r="6" />
+  <line class="body" x1="0" y1="6" x2="0" y2="20" />
+  <line class="arm-left" x1="0" y1="10" x2="-8" y2="15" />
+  <line class="arm-right" x1="0" y1="10" x2="8" y2="15" />
+  <line class="leg-left" x1="0" y1="20" x2="-6" y2="30" />
+  <line class="leg-right" x1="0" y1="20" x2="6" y2="30" />
+</g>
+
+<!-- Customer 5 (stick figure) -->
+<g class="customer5">
+  <circle class="head" cx="0" cy="0" r="6" />
+  <line class="body" x1="0" y1="6" x2="0" y2="20" />
+  <line class="arm-left" x1="0" y1="10" x2="-8" y2="15" />
+  <line class="arm-right" x1="0" y1="10" x2="8" y2="15" />
+  <line class="leg-left" x1="0" y1="20" x2="-6" y2="30" />
+  <line class="leg-right" x1="0" y1="20" x2="6" y2="30" />
+</g>
+
+<!-- Customer 6 (stick figure) -->
+<g class="customer6">
+  <circle class="head" cx="0" cy="0" r="6" />
+  <line class="body" x1="0" y1="6" x2="0" y2="20" />
+  <line class="arm-left" x1="0" y1="10" x2="-8" y2="15" />
+  <line class="arm-right" x1="0" y1="10" x2="8" y2="15" />
+  <line class="leg-left" x1="0" y1="20" x2="-6" y2="30" />
+  <line class="leg-right" x1="0" y1="20" x2="6" y2="30" />
+</g>
+
+<!-- Customer 7 (stick figure) -->
+<g class="customer7">
+  <circle class="head" cx="0" cy="0" r="6" />
+  <line class="body" x1="0" y1="6" x2="0" y2="20" />
+  <line class="arm-left" x1="0" y1="10" x2="-8" y2="15" />
+  <line class="arm-right" x1="0" y1="10" x2="8" y2="15" />
+  <line class="leg-left" x1="0" y1="20" x2="-6" y2="30" />
+  <line class="leg-right" x1="0" y1="20" x2="6" y2="30" />
+</g>
+
+<!-- Customer 8 (stick figure) -->
+<g class="customer8">
+  <circle class="head" cx="0" cy="0" r="6" />
+  <line class="body" x1="0" y1="6" x2="0" y2="20" />
+  <line class="arm-left" x1="0" y1="10" x2="-8" y2="15" />
+  <line class="arm-right" x1="0" y1="10" x2="8" y2="15" />
+  <line class="leg-left" x1="0" y1="20" x2="-6" y2="30" />
+  <line class="leg-right" x1="0" y1="20" x2="6" y2="30" />
+</g>
+
+<!-- Customer 9 (stick figure) -->
+<g class="customer9">
+  <circle class="head" cx="0" cy="0" r="6" />
+  <line class="body" x1="0" y1="6" x2="0" y2="20" />
+  <line class="arm-left" x1="0" y1="10" x2="-8" y2="15" />
+  <line class="arm-right" x1="0" y1="10" x2="8" y2="15" />
+  <line class="leg-left" x1="0" y1="20" x2="-6" y2="30" />
+  <line class="leg-right" x1="0" y1="20" x2="6" y2="30" />
+</g>
+
+<!-- Customer 10 (stick figure) -->
+<g class="customer10">
+  <circle class="head" cx="0" cy="0" r="6" />
+  <line class="body" x1="0" y1="6" x2="0" y2="20" />
+  <line class="arm-left" x1="0" y1="10" x2="-8" y2="15" />
+  <line class="arm-right" x1="0" y1="10" x2="8" y2="15" />
+  <line class="leg-left" x1="0" y1="20" x2="-6" y2="30" />
+  <line class="leg-right" x1="0" y1="20" x2="6" y2="30" />
+</g>
+
+    </svg>
+    <p>Serving customers...</p>
+  </div>
+  
+
+    
+</body>
+</html>

@@ -1,0 +1,242 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #84e0b8;
+  color: #333;  
+  margin: 0;
+  padding: 20px;
+}
+
+#day-popup {
+  position: fixed;       
+  top: 0;
+  left: 0;
+  width: 100vw;          
+  height: 100vh;       
+  background-color: rgba(0, 0, 0, 0.5); 
+  display: flex;         
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;         
+}
+
+#day-popup.hidden{
+  display: none;
+}
+
+svg {
+  max-width: 90vw;       /* Make sure SVG scales well */
+  max-height: 90vh;
+}
+
+/* Ground line */
+.ground {
+  stroke: #6B8E23;
+  stroke-width: 4;
+}
+
+/* --- Lemonade Stand Styling --- */
+
+/* Stand base (replaces .stand-body for more detail) */
+.stand-base {
+  fill: #FFDD55;
+  stroke: #B38F00;
+  stroke-width: 2;
+}
+
+/* Stand counter (shelf) */
+.stand-counter {
+  fill: #FFF799;
+  stroke: #B38F00;
+  stroke-width: 1;
+}
+
+/* Vertical posts */
+.post {
+  stroke: #B36E00;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+/* Awning stripes */
+.awning-stripe {
+  fill: #FFB347;
+  stroke: #B36E00;
+  stroke-width: 1;
+}
+
+/* Stand roof (keep or modify as you want) */
+.stand-roof {
+  fill: #F4A460;
+  stroke: #B36E00;
+  stroke-width: 2;
+}
+
+/* --- Stick Figure Customers Styling (replace old .customer and .leg) --- */
+
+/* Head - circle */
+.head {
+  fill: none;
+  stroke: #AA4444;
+  stroke-width: 2;
+}
+
+/* Body, arms, legs - lines */
+.body, .arm-left, .arm-right, .leg-left, .leg-right {
+  stroke: #AA4444;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* --- Animation --- */
+
+@keyframes walkLeft {
+  0% {
+    transform: translateX(300px);
+  }
+  100% {
+    transform: translateX(-100px);
+  }
+}
+
+
+/* Different delays so they stagger */
+/* Common animation for all customers */
+.customer1 {
+  --startX: 300px;
+  --startY: 110px;
+  animation: walkLeft 5s linear forwards;
+  animation-delay: 0s;
+  transform-origin: center bottom;
+  transform: translate(var(--startX), var(--startY));
+}
+
+.customer2 {
+  --startX: 350px;
+  --startY: 112px;
+  animation: walkLeft 5s linear forwards;
+  animation-delay: 0.5s;
+  transform-origin: center bottom;
+  transform: translate(var(--startX), var(--startY));
+}
+
+.customer3 {
+  --startX: 400px;
+  --startY: 114px;
+  animation: walkLeft 5s linear forwards;
+  animation-delay: 1s;
+  transform-origin: center bottom;
+  transform: translate(var(--startX), var(--startY));
+}
+
+.customer4 {
+  --startX: 450px;
+  --startY: 116px;
+  animation: walkLeft 5s linear forwards;
+  animation-delay: 1.5s;
+  transform-origin: center bottom;
+  transform: translate(var(--startX), var(--startY));
+}
+
+.customer5 {
+  --startX: 500px;
+  --startY: 118px;
+  animation: walkLeft 5s linear forwards;
+  animation-delay: 2s;
+  transform-origin: center bottom;
+  transform: translate(var(--startX), var(--startY));
+}
+
+.customer6 {
+  --startX: 550px;
+  --startY: 120px;
+  animation: walkLeft 5s linear forwards;
+  animation-delay: 2.5s;
+  transform-origin: center bottom;
+  transform: translate(var(--startX), var(--startY));
+}
+
+.customer7 {
+  --startX: 600px;
+  --startY: 122px;
+  animation: walkLeft 5s linear forwards;
+  animation-delay: 3s;
+  transform-origin: center bottom;
+  transform: translate(var(--startX), var(--startY));
+}
+
+.customer8 {
+  --startX: 650px;
+  --startY: 124px;
+  animation: walkLeft 5s linear forwards;
+  animation-delay: 3.5s;
+  transform-origin: center bottom;
+  transform: translate(var(--startX), var(--startY));
+}
+
+.customer9 {
+  --startX: 700px;
+  --startY: 126px;
+  animation: walkLeft 5s linear forwards;
+  animation-delay: 4s;
+  transform-origin: center bottom;
+  transform: translate(var(--startX), var(--startY));
+}
+
+.customer10 {
+  --startX: 750px;
+  --startY: 130px;
+  animation: walkLeft 5s linear forwards;
+  animation-delay: 4.5s;
+  transform-origin: center bottom;
+  transform: translate(var(--startX), var(--startY));
+}
+
+@keyframes walkLeft {
+  0% {
+    transform: translate(calc(var(--startX)), calc(var(--startY))) translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(var(--startX)), calc(var(--startY))) translateX(-400px);
+    opacity: 0;
+  }
+}
+
+/*container stuf*/
+.container {
+  display: flex;
+  gap: 20px;
+}
+
+.section1, .section2,
+.section3, .section4,
+.section5, .section6 {
+  flex: 1;
+  border: 2px ridge #FFEF1A;
+  padding: 10px;
+  background-color: #4fb98b;
+}
+
+
+.myButton {
+  background-color: #007B5E; /* dark green/teal */
+  color: #fff;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+  border: 2px ridge #FFEF1A;
+}
+
+.myButton:hover {
+  background-color: #00916E;
+}
+
+.myButton:active {
+  background-color: #005B44;
+  transform: scale(0.97);
+}
