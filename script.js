@@ -3,7 +3,7 @@ let bank = 5.0;
 let sellingPrice = 1.00;
 
 const prices = {
-  lemons: 0.1,
+  lemons: 0.2,
   ice: 0.1,
   sugar: 0.1,
   cups: 0.1,
@@ -31,7 +31,7 @@ const weatherTypes = {
   Cold: { bonus: 0.7 }
 };
 
-// === New upgrade data and levels ===
+// upgrade data and levels
 let staffLevel = 0;
 let marketingLevel = 0;
 
@@ -48,6 +48,21 @@ const marketingUpgradeCosts = {
   radio: 150,
   tv: 400
 };
+
+// Recipe related variables 
+let recipe = { lemons: 1, sugar: 1, ice: 1 };
+const idealRecipe = { lemons: 2, sugar: 2, ice: 1 };
+
+function getRecipeScore() {
+  const diff =
+    Math.abs(recipe.lemons - idealRecipe.lemons) +
+    Math.abs(recipe.sugar - idealRecipe.sugar) +
+    Math.abs(recipe.ice - idealRecipe.ice);
+
+  if (diff === 0) return 1.2;    // Perfect recipe boosts customers by 20%
+  if (diff <= 2) return 1.0;     // Acceptable, no bonus or penalty
+  return 0.8;                    // Poor recipe reduces customers to 80%
+}
 
 function buyItem(item, inputId) {
   const amount = parseInt(document.getElementById(inputId).value);
@@ -110,7 +125,7 @@ function updateUI() {
   const selectedLoc = document.getElementById("upgrade-location-select").value;
   inventoryList[4].textContent = `🗺️ Location: ${locationData[selectedLoc].name}`;
 
-  // Show Staff and Marketing level with upgrade names
+  // Show Staff and Marketing level with names
   const staffLevelDisplay = document.getElementById("staff-level-display");
   const marketingLevelDisplay = document.getElementById("marketing-level-display");
 
@@ -129,7 +144,6 @@ function updateUI() {
   }
 }
 
-
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("buy-lemons-btn").addEventListener("click", () => buyItem("lemons", "buy-lemons-amount"));
   document.getElementById("buy-ice-btn").addEventListener("click", () => buyItem("ice", "buy-ice-amount"));
@@ -138,6 +152,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("upgrade-staff-btn").addEventListener("click", applyStaffUpgrade);
   document.getElementById("upgrade-marketing-btn").addEventListener("click", applyMarketingUpgrade);
+
+  // Recipe inputs event listeners
+  document.getElementById("lemonsInput").addEventListener("input", e => {
+    const val = parseInt(e.target.value);
+    if (!isNaN(val) && val > 0) recipe.lemons = val;
+  });
+  document.getElementById("sugarInput").addEventListener("input", e => {
+    const val = parseInt(e.target.value);
+    if (!isNaN(val) && val > 0) recipe.sugar = val;
+  });
+  document.getElementById("iceInput").addEventListener("input", e => {
+    const val = parseInt(e.target.value);
+    if (!isNaN(val) && val > 0) recipe.ice = val;
+  });
 
   updateUI();
 });
@@ -186,10 +214,17 @@ document.getElementById("open-stall-btn").addEventListener("click", () => {
     const adjustedMaxCustomers = Math.max(0, baseMaxCustomers - customerReduction);
     const baseCustomers = Math.floor(Math.random() * (adjustedMaxCustomers + 1));
     
-    // === Apply marketing upgrade bonus ===
-    const finalCustomers = Math.floor(baseCustomers * weatherBonus * locationMultiplier * (1 + marketingLevel * 0.5));
+    //Apply marketing upgrade bonus and recipe impact 
+    const recipeMultiplier = getRecipeScore();
+    const finalCustomers = Math.floor(
+      baseCustomers *
+      weatherBonus *
+      locationMultiplier *
+      (1 + marketingLevel * 0.5) *
+      recipeMultiplier
+    );
 
-    // 🥤 Max possible sales
+    // Max possible sales
     const maxSales = Math.min(finalCustomers, inventory.lemons, inventory.cups, inventory.sugar, inventory.ice);
     const revenue = maxSales * sellingPrice;
 
@@ -207,6 +242,11 @@ document.getElementById("open-stall-btn").addEventListener("click", () => {
     inventory.ice -= maxSales;
 
     // 🧾 Update UI and sales
+
+    let tasteFeedback = "😊 The recipe was balanced!";
+    if (recipeMultiplier === 1.2) tasteFeedback = "😋 Customers loved the perfect taste!";
+    else if (recipeMultiplier === 0.8) tasteFeedback = "😕 The recipe was off — fewer customers.";
+
     updateUI();
     const salesInfo = document.getElementById("sales-info");
     salesInfo.innerHTML = `
@@ -216,7 +256,8 @@ document.getElementById("open-stall-btn").addEventListener("click", () => {
       💵 Tips: £${totalTips.toFixed(2)} <br>
       💸 Rent: £${locationRent.toFixed(2)} <br>
       📉 Net Profit: £${netProfit.toFixed(2)} <br>
-      🏦 Bank: £${bank.toFixed(2)}
+      🏦 Bank: £${bank.toFixed(2)} <br>
+      ${tasteFeedback}
     `;
 
     setTimeout(() => {
