@@ -5,15 +5,23 @@ This Lemonade Stand game lets you manage your own lemonade business! Buy ingredi
 Features
 
 Purchase ingredients (lemons, sugar, ice, cups) to stock your inventory
-Set your selling price per cup of lemonade
-Upgrade your staff and marketing to boost sales and tips
-Choose locations with different foot traffic and rent costs
-Weather impacts customer turnout and sales
-Recipe customization affects customer satisfaction and demand
-Real-time updates on bank balance, inventory, and sales statistics
-Simple, intuitive UI with alerts and feedback
-How to Play
 
+Set your selling price per cup of lemonade
+
+Upgrade your staff and marketing to boost sales and tips
+
+Choose locations with different foot traffic and rent costs
+
+Weather impacts customer turnout and sales
+
+Recipe customization affects customer satisfaction and demand
+
+Real-time updates on bank balance, inventory, and sales statistics
+
+Simple, intuitive UI with alerts and feedback
+
+
+How to Play
 Buy ingredients: Use the buy buttons to purchase lemons, sugar, ice, and cups within your budget.
 Set price: Decide how much to charge per cup of lemonade.
 Upgrade: Invest in staff and marketing to increase sales efficiency.
