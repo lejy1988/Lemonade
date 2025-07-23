@@ -18,6 +18,12 @@ const inventory = {
   cups: 20,
 };
 
+//function for days of the week
+function getDayName(dayNumber) {
+  const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  return days[(dayNumber - 1) % 7];
+}
+
 //location options with multipliers
 const locationData = {
   streetcorner: { name: "Street Corner", multiplier: 1.0, rent: 1 },
@@ -78,9 +84,7 @@ function calculateCostPerCup() {
     prices.cups
   );
 }
-
-// preview cost and profit per cup
-function updatePricePreview() {
+function updateEstimates() {
   const cost = calculateCostPerCup();
   const profit = sellingPrice - cost;
 
@@ -140,7 +144,8 @@ function applyMarketingUpgrade() {
 // update UI function
 function updateUI() {
   document.querySelector("main section h2").textContent = `Bank Balance: £${bank.toFixed(2)}`;
-  document.getElementById("day-counter").textContent = `📅 Day: ${day}`;
+  document.getElementById("day-counter").textContent = `📅 Day ${day} – ${getDayName(day)}`;
+
   const inventoryList = document.querySelectorAll("ul li");
   inventoryList[0].textContent = `🍋 Lemons: ${inventory.lemons}`;
   inventoryList[1].textContent = `🧊 Ice: ${inventory.ice} bags`;
@@ -168,28 +173,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("upgrade-staff-btn").addEventListener("click", applyStaffUpgrade);
   document.getElementById("upgrade-marketing-btn").addEventListener("click", applyMarketingUpgrade);
-  document.getElementById("price-per-cup").addEventListener("input", e => {
-    const priceInput = parseFloat(e.target.value);
-    if (!isNaN(priceInput) && priceInput > 0) sellingPrice = priceInput;
-    updatePricePreview();
-  });
-  
+
   document.getElementById("lemonsInput").addEventListener("input", e => {
     const val = parseInt(e.target.value);
     if (!isNaN(val) && val > 0) recipe.lemons = val;
-    updatePricePreview();
+    updateEstimates();
   });
   document.getElementById("sugarInput").addEventListener("input", e => {
     const val = parseInt(e.target.value);
     if (!isNaN(val) && val > 0) recipe.sugar = val;
-    updatePricePreview();
+    updateEstimates();
   });
   document.getElementById("iceInput").addEventListener("input", e => {
     const val = parseInt(e.target.value);
     if (!isNaN(val) && val > 0) recipe.ice = val;
-    updatePricePreview();
+    updateEstimates();
   });
-  updatePricePreview();
+
+  updateUI();
 });
 
 // set selling price
@@ -201,6 +202,7 @@ document.getElementById("set-price-btn").addEventListener("click", () => {
   }
   sellingPrice = priceInput;
   alert(`✅ Price set to £${sellingPrice.toFixed(2)} per cup.`);
+  updateEstimates();
 });
 
 // open stall and start selling function
@@ -230,13 +232,40 @@ document.getElementById("open-stall-btn").addEventListener("click", () => {
     return;
   }
 
+  let totalCupsSold = 0;
+  const numberOfCustomers = Math.floor(Math.random() * 10) + 5;
+
+  // simulate 1-3 cups wanted by each customer
+  for (let i = 0; i < numberOfCustomers; i++) {
+    const cupsWanted = Math.floor(Math.random() * 3) + 1;
+    const cupsAvailable = Math.min(
+      Math.floor(inventory.lemons / recipe.lemons),
+      Math.floor(inventory.sugar / recipe.sugar),
+      Math.floor(inventory.ice / recipe.ice),
+      inventory.cups
+    );
+
+    const cupsToSell = Math.min(cupsWanted, cupsAvailable);
+
+    if (cupsToSell > 0) {
+      inventory.lemons -= recipe.lemons * cupsToSell;
+      inventory.sugar -= recipe.sugar * cupsToSell;
+      inventory.ice -= recipe.ice * cupsToSell;
+      inventory.cups -= cupsToSell;
+      totalCupsSold += cupsToSell;
+    } else {
+      break;
+    }
+  }
+
+  // End of day processing
   const popup = document.getElementById("day-popup");
   popup.classList.remove("hidden");
 
   setTimeout(() => {
     day++;
 
-    // Weather + location effects
+    // weather and location effects and multiplier
     const weatherKeys = Object.keys(weatherTypes);
     const randomWeather = weatherKeys[Math.floor(Math.random() * weatherKeys.length)];
     const weatherBonus = weatherTypes[randomWeather].bonus;
@@ -247,66 +276,23 @@ document.getElementById("open-stall-btn").addEventListener("click", () => {
     const locationMultiplier = location.multiplier;
     const locationRent = location.rent;
 
-    const baseCustomers = Math.floor(Math.random() * 100);
-
-    // Price Elasticity Logic
-    function getPriceDemandMultiplier(price) {
-      if (price <= 0.5) return 1.2;
-      if (price <= 1.0) return 1.1;
-      if (price <= 1.5) return 1.0;
-      if (price <= 2.0) return 0.95;
-      if (price <= 2.5) return 0.9;
-      if (price <= 3.0) return 0.85;
-      if (price <= 3.5) return 0.8;
-      if (price <= 4.0) return 0.75;
-      if (price <= 4.5) return 0.7;
-      if (price <= 5.0) return 0.65;
-      return 0.6;                  
-    }
+    // Display location info
+    const baseMaxCustomers = 100;
+    const priceFactor = Math.floor(sellingPrice * 10);
+    const customerReduction = priceFactor * 3;
+    const adjustedMaxCustomers = Math.max(0, baseMaxCustomers - customerReduction);
+    const baseCustomers = Math.floor(Math.random() * (adjustedMaxCustomers + 1));
 
     const recipeMultiplier = getRecipeScore();
-    const priceDemand = getPriceDemandMultiplier(pricePerCup);
-
     const finalCustomers = Math.floor(
       baseCustomers *
       weatherBonus *
       locationMultiplier *
       (1 + marketingLevel * 0.5) *
-      recipeMultiplier *
-      priceDemand
+      recipeMultiplier
     );
 
-    // Sell cups to customers
-    let totalCupsSold = 0;
-
-    for (let i = 0; i < finalCustomers; i++) {
-      const willingnessToPay = Math.random() * 3;
-
-      if (sellingPrice > willingnessToPay) continue;
-
-      const cupsWanted = Math.floor(Math.random() * 3) + 1;
-
-      const cupsAvailable = Math.min(
-        Math.floor(inventory.lemons / recipe.lemons),
-        Math.floor(inventory.sugar / recipe.sugar),
-        Math.floor(inventory.ice / recipe.ice),
-        inventory.cups
-      );
-
-      const cupsToSell = Math.min(cupsWanted, cupsAvailable);
-
-      if (cupsToSell > 0) {
-        inventory.lemons -= recipe.lemons * cupsToSell;
-        inventory.sugar -= recipe.sugar * cupsToSell;
-        inventory.ice -= recipe.ice * cupsToSell;
-        inventory.cups -= cupsToSell;
-        totalCupsSold += cupsToSell;
-      } else {
-        break;
-      }
-    }
-
-    // Sales Calculations
+    // sales calculations
     const revenue = totalCupsSold * pricePerCup;
     const tipsPerCup = 0.1 * staffLevel;
     const totalTips = totalCupsSold * tipsPerCup;
@@ -315,7 +301,7 @@ document.getElementById("open-stall-btn").addEventListener("click", () => {
     const netProfit = (profitPerCup * totalCupsSold) + totalTips - locationRent;
     bank += netProfit;
 
-    // 5️⃣ Feedback
+    // sales feedback
     let tasteFeedback = "😊 The recipe was balanced!";
     if (recipeMultiplier === 1.2) tasteFeedback = "😋 Customers loved the perfect taste!";
     else if (recipeMultiplier === 0.8) tasteFeedback = "😕 The recipe was off — fewer customers.";
@@ -328,9 +314,8 @@ document.getElementById("open-stall-btn").addEventListener("click", () => {
       💰 Revenue: £${revenue.toFixed(2)} <br>
       💵 Tips: £${totalTips.toFixed(2)} <br>
       🧾 Cost per Cup: £${costPerCup.toFixed(2)} <br>
-      📈 Profit per Cup: £${profitPerCup.toFixed(2)} <br>
+       📈 Profit per Cup: £${profitPerCup.toFixed(2)} <br>
       💸 Rent: £${locationRent.toFixed(2)} <br>
-      📊 Price Demand Multiplier: x${priceDemand.toFixed(2)} <br>
       📉 Net Profit: £${netProfit.toFixed(2)} <br>
       🏦 Bank: £${bank.toFixed(2)} <br>
       ${tasteFeedback}
@@ -341,3 +326,4 @@ document.getElementById("open-stall-btn").addEventListener("click", () => {
     }, 3000);
   }, 5000);
 });
+
