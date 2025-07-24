@@ -3,6 +3,10 @@ let day = 1;
 let bank = 5.0;
 let sellingPrice = 1.00;
 
+//Weather Variables********************************
+let currentWeather = "Sunny";
+let tomorrowWeather = "Cloudy"
+
 // Item Price and Inventory Data
 const prices = {
   lemons: 0.2,
@@ -141,6 +145,18 @@ function applyMarketingUpgrade() {
     alert("❌ Not enough money to apply Marketing upgrade.");
   }
 }
+// Weather Function*************************************
+function generateWeatherForecast() {
+  const keys = Object.keys(weatherTypes);
+  currentWeather = tomorrowWeather;
+  tomorrowWeather = keys[Math.floor(Math.random() * keys.length)];
+}
+
+function updateWeatherUI() {
+  document.getElementById("weather-info").textContent = `🌤️ Today: ${currentWeather}`;
+  document.getElementById("forecast-info").textContent = `🔮 Tomorrow: ${tomorrowWeather}`;
+}
+
 // update UI function
 function updateUI() {
   document.querySelector("main section h2").textContent = `Bank Balance: £${bank.toFixed(2)}`;
@@ -190,6 +206,8 @@ document.addEventListener("DOMContentLoaded", () => {
     updateEstimates();
   });
 
+  generateWeatherForecast();
+  updateWeatherUI();
   updateUI();
 });
 
@@ -264,12 +282,13 @@ document.getElementById("open-stall-btn").addEventListener("click", () => {
 
   setTimeout(() => {
     day++;
+    generateWeatherForecast();
+    updateWeatherUI();
 
-    // weather and location effects and multiplier
-    const weatherKeys = Object.keys(weatherTypes);
-    const randomWeather = weatherKeys[Math.floor(Math.random() * weatherKeys.length)];
-    const weatherBonus = weatherTypes[randomWeather].bonus;
-    document.getElementById("weather-info").textContent = `Weather is ${randomWeather}.`;
+const weatherBonus = weatherTypes[currentWeather].bonus;
+
+    //location effects and multiplier
+    
 
     const locationKey = document.getElementById("upgrade-location-select").value;
     const location = locationData[locationKey];
