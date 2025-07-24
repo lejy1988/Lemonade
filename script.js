@@ -3,7 +3,7 @@ let day = 1;
 let bank = 5.0;
 let sellingPrice = 1.00;
 
-//Weather Variables********************************
+//Weather Variables
 let currentWeather = "Sunny";
 let tomorrowWeather = "Cloudy"
 
@@ -65,7 +65,7 @@ const marketingUpgradeCosts = {
 
 //recipe managment
 let recipe = { lemons: 1, sugar: 1, ice: 1 };
-const idealRecipe = { lemons: 2, sugar: 2, ice: 1 };
+const idealRecipe = { lemons: 1, sugar: 1, ice: 2 };
 
 //perfect recipe score
 function getRecipeScore() {
@@ -145,7 +145,7 @@ function applyMarketingUpgrade() {
     alert("❌ Not enough money to apply Marketing upgrade.");
   }
 }
-// Weather Function*************************************
+// Weather Function
 function generateWeatherForecast() {
   const keys = Object.keys(weatherTypes);
   currentWeather = tomorrowWeather;
